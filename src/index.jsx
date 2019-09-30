@@ -19,18 +19,34 @@ class App extends React.PureComponent{
   }
 
  handleChange(event){
-    console.log(event.target.value);
-  };
+  console.log(event.target.value);
+
+  switch (target.value) {
+
+    case "os":
+      this.setState({
+          items: os,
+        });
+      break;
+
+    case "systems":
+      this.setState({
+        items: systems,
+      });
+    break;
+
+ }
+};
 
   render(){
-    <>
+    return <>
       <Header/>
-        <select onChange={this.handleChange}>
+        <select onChange={this.handleChange.bind(this)}>
           <option value="os">Operating Systems</option>
           <option value="systems">Computer Systems</option>
         </select>
         <ItemList items={this.state.items} />
-    </>
+    </>;
   }
 }
 
