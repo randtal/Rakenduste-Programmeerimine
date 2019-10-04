@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ItemList = (props) => {
   return (
@@ -19,11 +20,13 @@ const ItemList = (props) => {
 const Item = (props) => {
 
     return (
+      <Link to={"/item"}>
         <div className = {"item"}>
           <img src={props.imgSrc}/>
           <div className="item__title">{props.title}</div>
           <div className="item__price">{props.price}</div>
         </div>
+      </Link>
       )
   };
 
