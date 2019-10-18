@@ -1,19 +1,50 @@
 import React from "react";
 import Header from "./Header.jsx";
-import {os} from "./mydatabase.js";
+//import {os} from "./mydatabase.js";
+import PropTypes from "prop-types";
 
 class ItemPage extends React.PureComponent{
+
+  constructor(props){
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount() {
+    this.fetchItem();
+  }
+
+  fetchItem = () => {
+    fetch(`/api/items/${this.props.match.params.itemId}`)
+    .then(res =>{
+      return res.json();
+    })
+    .then( item=>{
+      console.log("item", item);
+      this.setState({
+        ...item
+      });
+    })
+    .cath(err =>{
+      console.log("item page ",err);
+    });
+  }
+
   render(){
-    const item = os[0];
-    return <>
+    return( <>
       <Header/>
-      <div className={"itemContainer"}>
-        <img src={item.imageSrc} />
-        <div className = {"item__title"}>{item.title}</div>
-        <div className = {"item__price"}>{item.price}</div>
-      </div>
-    </>;
+        <div className={"itemContainer"}>
+          <img src={this.state.imageSrc} />
+            <div className = {"item__title"}>{this.state.title}</div>
+            <div className = {"item__price"}>{this.state.price}</div>
+        </div>
+      </>
+    );
   }
 }
+
+ItemPage.propTypes = {
+  match: PropTypes.object.isRequired,
+};
 
 export default ItemPage;

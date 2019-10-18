@@ -16,7 +16,7 @@ const getItems = () => {
       ...systems,
       id: "systems-"+index,
       category: "systems"
-    })
+    });
   });
   return items;
 };

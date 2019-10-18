@@ -17,7 +17,7 @@ class HomePage extends React.PureComponent{
   }
 
   fetchItems = () => {
-    fetch("/api/items")
+    fetch("/api/items/:id")
       .then(res => {
         console.log("res", res);
         return res.json();
@@ -48,8 +48,8 @@ class HomePage extends React.PureComponent{
     console.log("this.state", this.state);
     return (
       <>
-        <Header/>
-          <select onChange={this.handleDropdown}>
+        <Header />
+          <select onChange={this.handleDropdown.bind(this)}>
             <option value="os">Operating Systems</option>
             <option value="systems">Computer Systems</option>
           </select>
