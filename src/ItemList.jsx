@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const ItemList = (props) => {
   return (
@@ -7,14 +8,19 @@ const ItemList = (props) => {
       {
         props.items.map( item => {
           return <Item
+              key={item.id}
               imgSrc={item.imgSrc}
               price={item.price}
               title={item.title}
-            />
+            />;
           })
       }
     </div>
-  )
+  );
+};
+
+ItemList.propTypes = {
+  items: PropTypes.array.isRequired
 };
 
 const Item = (props) => {
@@ -27,7 +33,13 @@ const Item = (props) => {
           <div className="item__price">{props.price}</div>
         </div>
       </Link>
-      )
+      );
   };
+
+Item.propTypes = {
+  imgSrc: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  price: PropTypes.string.isRequired,
+};
 
 export default ItemList;
