@@ -17,7 +17,7 @@ class HomePage extends React.PureComponent{
   }
 
   fetchItems = () => {
-    fetch("/api/items/:id")
+    fetch("/api/items/")
       .then(res => {
         console.log("res", res);
         return res.json();

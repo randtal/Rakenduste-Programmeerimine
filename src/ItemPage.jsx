@@ -25,12 +25,15 @@ class ItemPage extends React.PureComponent{
         ...item
       });
     })
-    .cath(err =>{
+    .catch(err =>{
       console.log("item page ",err);
     });
   }
 
   render(){
+      console.log("this.props", this.props);
+      console.log("itemID", this.props.match.params.itemId);
+      console.log("this.state", this.state);
     return( <>
       <Header/>
         <div className={"itemContainer"}>
