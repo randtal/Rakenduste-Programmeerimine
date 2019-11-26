@@ -8,14 +8,16 @@ const getItems = () => {
     items.push({
       ...os,
       id: "os-"+index,
-      category: "os"
-    })
+      category: "os",
+      price: cleanPrice(os.price),
+    });
   });
   systems.forEach( (systems, index) => {
     items.push({
       ...systems,
       id: "systems-"+index,
-      category: "systems"
+      category: "systems",
+      price: cleanPrice(systems.price),
     });
   });
   return items;
@@ -23,6 +25,13 @@ const getItems = () => {
 
 const getItem = (itemId) => {
   return getItems().find( item => item.id === itemId);
+};
+
+const cleanPrice = (dirty) => {
+   //Remove To
+   const parts = dirty.split("to");
+   // Remove dollar string
+   return parts[0].replace("$", "");
 };
 
 module.exports = {
