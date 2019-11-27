@@ -1,10 +1,11 @@
 import React from "react";
 import Header from "./Header.jsx";
-import ItemList from "./ItemList.jsx";
+import ItemsList from "./ItemsList.jsx";
 import Checkbox from "./Checkbox.jsx";
 import PropTypes from "prop-types";
 import "./homepage.css";
 import SortDropdown from "./SortDropdown.jsx";
+import "./itemsList.css";
 
 class HomePage extends React.PureComponent{
 
@@ -14,7 +15,7 @@ class HomePage extends React.PureComponent{
       sortDirection: -1,
       items: [],
       allCategories: ["os", "systems"],
-      selectedCategories: ["os"],
+      selectedCategories: ["os"]
     };
   }
 
@@ -23,7 +24,7 @@ class HomePage extends React.PureComponent{
   }
 
   fetchItems = () => {
-    fetch("/api/items/")
+    fetch("/api/items")
       .then(res => {
         console.log("res", res);
         return res.json();
@@ -39,10 +40,11 @@ class HomePage extends React.PureComponent{
       });
   };
 
-  handleDropdown = (event) => {
+  handleDropdown = event => {
+    console.log(event.target.value, event.target.name);
     if(this.isSelected(event.target.name)){
         const clone = this.state.selectedCategories.slice();
-        const index = this.state.selectedCategories.indexOf(event.target.name);
+        const index = this.state.selectedCategories.indexOf([event.target.name]);
         clone.splice(index, 1);
         this.setState({
           selectedCategories: clone
@@ -52,44 +54,53 @@ class HomePage extends React.PureComponent{
         selectedCategories: this.state.selectedCategories.concat([event.target.name])
       });
     }
-  }
+  };
 
   getVisibleItems = () => {
     return this.state.items
-    .filter( item => this.isSelected(item.category))
-    .sort( (a, b) => {
-      switch(this.state.sortDirection){
-        case -1: return b.price - a.price;
-        case 1: return a.price - b.price;
-      }
-    });
+      .filter( item => this.isSelected(item.category))
+      .sort( (a, b) => {
+        switch(this.state.sortDirection){
+          case -1: return b.price - a.price;
+          case 1: return a.price - b.price;
+        }
+      });
   };
 
-isSelected = (name) => this.state.selectedCategories.indexOf(name) >= 0;
+  isSelected = (name) => this.state.selectedCategories.indexOf(name) >= 0;
 
-  handleSortDropdown = (event) => {
+  handleSortDropdown = (sortDirection) => {
     this.setState({
-      sortDirection: parseInt(event.target.value),
+      sortDirection: sortDirection,
     });
   };
 
-  render(){
+  render() {
+    const items = this.getVisibleItems();
     return (
-      <>
-        <Header />
-        <ItemFilters
-          allCategories={this.state.allCategories}
-          handleDropdown={this.handleDropdown}
-          isSelected={this.isSelected}
-        />
-        <div className={"items-settings"}>
-          <SortDropdown
-            direction={this.state.sortDirection}
-            onChange={this.handleSortDropdown}
-          />
-        </div>
-        <ItemList items={this.getVisibleItems()} />
-      </>
+        <>
+          <Header />
+          <div className={"bodyWrapper"}>
+            <div className={"filtersWrapper"}>
+              <ItemFilters
+                  allCategories={this.state.allCategories}
+                  handleDropdown={this.handleDropdown}
+                  isSelected={this.isSelected}
+              />
+            </div>
+            <div className={"itemsHeaderWrapper"}>
+              <div>
+                Items found {items.length}{" "}
+                {this.state.selectedCategories.join(", ")}
+              </div>
+              <SortDropdown
+                  direction={this.state.sortDirection}
+                  onChange={this.handleSortDropdown}
+              />
+            </div>
+            <ItemsList items={items} />
+          </div>
+        </>
     );
   }
 }

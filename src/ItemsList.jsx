@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const ItemList = (props) => {
+const ItemsList = (props) => {
   return (
     <div className={"content"}>
       {
@@ -20,22 +20,25 @@ const ItemList = (props) => {
   );
 };
 
-ItemList.propTypes = {
+ItemsList.propTypes = {
   items: PropTypes.array.isRequired
 };
 
-const Item = (props) => {
-
-    return (
-      <Link to={`/items/${props.id}`}>
-        <div className = {"item"}>
-          <img src={props.imgSrc}/>
+const Item = props => {
+  return (
+      <Link to={`/items/${props.id}`} className={"item"}>
+        <div className={"item_imgWrapper"}>
+          <img src={props.imgSrc} />
+        </div>
+        <div className={"itemDescription"}>
           <div className="item__title">{props.title}</div>
-          <div className="item__price">{props.price}</div>
+          <div className={"itemFooter"}>
+            <div className="item__price">${props.price}</div>
+          </div>
         </div>
       </Link>
-      );
-  };
+  );
+};
 
 Item.propTypes = {
   id: PropTypes.string.isRequired,
@@ -44,4 +47,4 @@ Item.propTypes = {
   price: PropTypes.string.isRequired,
 };
 
-export default ItemList;
+export default ItemsList;
