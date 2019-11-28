@@ -7,7 +7,7 @@ const getItems = () => {
   os.forEach( (os, index) => {
     items.push({
       ...os,
-      id: "os-"+index,
+      //id: "os-"+index,
       category: "os",
       price: cleanPrice(os.price),
     });
@@ -15,7 +15,7 @@ const getItems = () => {
   systems.forEach( (systems, index) => {
     items.push({
       ...systems,
-      id: "systems-"+index,
+      //id: "systems-"+index,
       category: "systems",
       price: cleanPrice(systems.price),
     });

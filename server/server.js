@@ -5,11 +5,12 @@ const PORT = process.env.PORT || 3000;
 const DB = require("./database");
 const mongoose = require("mongoose");
 require('dotenv').config();
-const userRouter = require("./user.js");
+const ItemRouter = require("./item.router.js");
+const Item = require("./item.model.js");
 
 const DB_URL = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0-71tpl.gcp.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
-app.use(userRouter);
+app.use(ItemRouter);
 
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../dist", "index.html"));
@@ -32,8 +33,27 @@ function listen(){
 mongoose.connect(DB_URL)
     .then(() =>{
       console.log("Database access success!");
+      migrate();
       listen();
     })
     .catch( err =>{
       console.error("error happened", err);
     });
+
+//siin jäi vigaseks, vide koht 11:11
+
+function migrate(){
+    console.log("migrate started!");
+    const items = DB.getItems();
+    items.forEach(item =>{
+        const document = new Item(item);
+        document.save( (err) => {
+            if(err){
+                console.log(err);
+                throw new Error("Something happened during save");
+            }
+            console.log('save success');
+        })
+    });
+    console.log("items", items);
+}
