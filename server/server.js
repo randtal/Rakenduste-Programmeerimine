@@ -3,24 +3,23 @@ const app = express();
 const path = require("path");
 const PORT = process.env.PORT || 3000;
 const mongoose = require("mongoose");
+require('dotenv').config();
 const itemRouter = require("./item.router.js");
 const userRouter = require("./user.router.js");
-const autoRouter = require("./auth.router.js");
+const authRouter = require("./auth.router.js");
 const DB = require("./database.js");
 const Item = require("./item.model.js");
 const bodyParser = require("body-parser");
 
-if(process.env.NODE_ENV !== "production"){
-    require.('dotenv').config();
-}
+
 
 const DB_URL = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0-71tpl.gcp.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 app.use(bodyParser.json());
 
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1", itemRouter);
-app.use("/api/v1/users", userRouter);
+app.use(bodyParser.json());
+app.use(itemRouter);
+app.use(userRouter);
 
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../dist", "index.html"));

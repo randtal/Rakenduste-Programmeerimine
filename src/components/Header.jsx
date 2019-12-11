@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {userIcon, cartIcon} from "./icons";
+import {userIcon, cartIcon} from "../icons";
 import "./header.css";
 
 const Header = () => {
