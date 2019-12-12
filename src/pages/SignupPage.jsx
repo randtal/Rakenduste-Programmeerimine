@@ -20,7 +20,6 @@ class SignupPage extends React.PureComponent {
 
     handleSubmit = e => {
         e.preventDefault();
-        console.log("submit", this.state);
         fetch("/api/v1/auth/signup", {
             method: "POST",
             headers: {
@@ -38,7 +37,6 @@ class SignupPage extends React.PureComponent {
     };
 
     handleChange = e => {
-        //console.log("handle change", e.target.name, e.target.value);
         this.setState({
             [e.target.name]: e.target.value
         });

@@ -20,7 +20,6 @@ class LoginPage extends React.PureComponent {
 
     handleSubmit = e => {
         e.preventDefault();
-        console.log("submit", this.state);
         fetch("/api/v1/auth/login", {
             method: "POST",
             headers: {
@@ -30,7 +29,6 @@ class LoginPage extends React.PureComponent {
         })
             .then(res => res.json())
             .then(({ token, user }) => {
-                console.log("response", token, user);
                 this.props.onLogin({ token, user });
                 this.props.history.push(`/users/${user._id}`);
             })

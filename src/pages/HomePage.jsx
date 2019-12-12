@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import "./homepage.css";
 import SortDropdown from "../components/SortDropdown.jsx";
 //import "../components/itemsList.css";
+import {getItems} from "../actions/ItemsAction"  ;
 
 class HomePage extends React.PureComponent{
 
@@ -23,25 +24,24 @@ class HomePage extends React.PureComponent{
   }
 
   fetchItems = () => {
-    fetch("/api/v1/items")
-      .then(res => {
-        console.log("res", res);
-        return res.json();
-      })
-      .then(items => {
-        console.log("items", items);
-        this.setState({
-          items
+    getItems()
+        // .then(res => {
+        //   return res.json();
+        // })
+        .then(items => {
+          console.log("items", items);
+          this.setState({
+            items
+          });
+        })
+        .catch(err => {
+          console.log("err", err);
         });
-      })
-      .catch(err => {
-        console.log("err", err);
-      });
   };
+
 
   handleFilterSelect = event => {
     const categoryName = event.target.name;
-    console.log(event.target.value, event.target.name);
     if (this.isSelected(categoryName)) {
       return this.unselectCategory(categoryName);
     }

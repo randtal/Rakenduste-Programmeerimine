@@ -3,26 +3,32 @@ import { Link } from "react-router-dom";
 import {userIcon, cartIcon} from "../icons";
 import "./header.css";
 import PropTypes from "prop-types";
+import authConsumer from "./authConsumer.jsx";
 
-const Header = ({token, user}) => {
-    console.log("header", token);
-  return (
-    <div className="header">
-      <Link to="/">
-        <img className="header__logo" src="/images/apple.png" />
-      </Link>
-      <div className="header__buttons">
+const Header = ({ user }) => {
+    return (
+        <div className="header">
+            <Link to={"/"}>
+                <img className="headerLogo" src="/images/Logo.jpg" />
+            </Link>
+            <div className="headerButtons">
+                {user.email && <WelcomeIcon user={user} />}
+                {!user.email && <LoginRegisterIcon />}
 
-          { user.email && <WelcomeIcon user={user}/> }
-          { !user.email && <LoginRegisterIcon/> }
-
-        <div className="header__button">
-          <img src={cartIcon} style={{height: 35}} />
-          <div className={"header__button-text"}>Cart</div>
+                <Link className="headerButton" to={"/checkout/cart"}>
+                    <button className="instagram" type="submit">
+                        <img
+                            className={"buttonImage"}
+                            src={cartIcon}
+                            alt=""
+                            style={{ height: 35 }}
+                        />
+                        Cart
+                    </button>
+                </Link>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 Header.propTypes = {
@@ -48,4 +54,4 @@ WelcomeIcon.propTypes = {
     user: PropTypes.object.isRequired
 };
 
-export default Header;
+export default authConsumer(Header);
