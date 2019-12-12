@@ -46,3 +46,12 @@
   padding-left: 5px;
   font-size: 14px;
 }
+
+.badge {
+  position: absolute;
+  padding: 2px 4px;
+  background: #d41d46;
+  bottom: 17px;
+  color: white;
+  border-radius: 100%;
+}

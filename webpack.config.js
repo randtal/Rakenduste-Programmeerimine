@@ -15,7 +15,13 @@ module.exports = {
       {
         from: "public"
       }
-    ])
+    ]),
+    new CopyPlugin([
+        {
+          from: "public/images",
+          to: "static/images"
+        }
+      ])
   ],
   devServer: {
     historyApiFallback: true,
@@ -46,8 +52,16 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
-        }
-      }
+        },
+      },
+      {
+        test: /\.(png|jpeg|gif|woff|woff2)$/i,
+        use: [
+            {
+              loader: "file-loader",
+            },
+        ],
+      },
     ]
   },
 };

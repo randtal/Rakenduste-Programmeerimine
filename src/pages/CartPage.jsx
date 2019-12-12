@@ -1,60 +1,56 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { getItems } from "../actions/itemsAction.js";
-import { FaRegTrashAlt, FaAngleRight } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import "../Components/cart.css";
+import FancyButton from "../components/FancyButton.jsx";
+import {connect} from "react-redux";
 
 class CartPage extends React.PureComponent {
-    state = {
-        rows: []
+
+    static propTypes = {
+        cart: PropTypes.arrayOf(PropTypes.shape(ItemProps)).isRequired,
+        dispatch: PropTypes.func.isRequired,
     };
 
-    componentDidMount() {
-        getItems()
-            .then(items => {
-                this.setState({
-                    rows: items.slice(0, 4)
-                });
-            })
-            .catch(err => {
-                console.log(err);
-                console.error("Somethings worng with fetcing items");
-            });
-    }
+    calcNumbers = () => {
+        const VAT = 20;
+        const sum = Math.round(this.state.cart.reduce((acc, item) => acc + item.price, 0));
+        const tax = Math.round(sum / 100 * VAT);
+        return {
+            sum, tax
+        };
+    };
+
+    handleTrash = (_id) => {
+        this.props.dispatch(removeItem(_id));
+    };
 
     render() {
+        const {sum, tax} = this.calcNumbers();
         return (
             <>
                 <div>
                     <h1>Cart page</h1>
                 </div>
-
-                <div className={"spacer"}>
-                    <div className={"box cart"}>
-                        <Table rows={this.state.rows} />
-                    </div>
-                    <div className={"box cart__summary"}>
+                <div className={"container"}>
+                    <div className={"spacer"}>
+                        <div className={"box cart"}>
+                            <Table
+                                onTrashClick={this.handleTrash}
+                                rows={this.state.cartItems}
+                            />
+                        </div>
+                        {this.state.cartItems.length > 0 &&
+                        <div className={"box cart__summary"}>
                         <table>
                             <tbody>
-                            <tr>
-                                <td>Vahesumma</td>
-                                <td>22 000 €</td>
-                            </tr>
-                            <tr>
-                                <td>Maksud</td>
-                                <td>1100€</td>
-                            </tr>
-                            <tr>
-                                <td>Kokku</td>
-                                <td>23 100 €</td>
-                            </tr>
+                            <tr><td>Vahesumma</td><td>{sum} €</td></tr>
+                            <tr><td>Maksud</td><td>{tax} €</td></tr>
+                            <tr><td>Kokku</td><td>{tax + sum} €</td></tr>
                             <tr>
                                 <td></td>
                                 <td>
-                                    <div className={"submit-button"}>
-                                        Vormista ost
-                                        <FaAngleRight />
-                                    </div>
+                                    <FancyButton>Vormista ost</FancyButton>
                                 </td>
                             </tr>
                             </tbody>
@@ -65,7 +61,7 @@ class CartPage extends React.PureComponent {
         );
     }
 }
-const Table = ({ rows }) => {
+const Table = ({ rows, onTrash }) => {
     return (
         <div className={"table"}>
             <div className={"row"}>
@@ -76,16 +72,14 @@ const Table = ({ rows }) => {
                 {/* Trash button */}
                 <div className={"cell cell--small"}></div>
             </div>
-            {rows.map((row) =>
-                <Row key={row._id} {...row} />
-            )}
+            {rows.map((row, index) => <Row onTrashClick={onTrash} key={index} {...row} />)}
         </div>
     );
 };
 Table.propTypes = {
     rows: PropTypes.array.isRequired
 };
-const Row = ({ title, imgSrc, category, price }) => {
+const Row = ({ _id, title, imgSrc, category, price, onTrashClick }) => {
     return (
         <div className={"row"}>
             <div className={"cell"}>
@@ -95,11 +89,16 @@ const Row = ({ title, imgSrc, category, price }) => {
             <div className={"cell"}>{category}</div>
             <div className={"cell cell-right"}>{price} €</div>
             <div className={"cell cell--small cell--center"}>
-                <FaRegTrashAlt />
+                <FaRegTrashAlt
+                    title={"Eemalda"}
+                    className={"trash-btn"}
+                    onClick={() => onTrash(_id)}
+                />
             </div>
         </div>
     );
 };
+
 export const ItemProps = {
     _id: PropTypes.string.isRequired,
     imgSrc: PropTypes.string.isRequired,
@@ -107,5 +106,16 @@ export const ItemProps = {
     title: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired
 };
-Row.propTypes = ItemProps;
-export default CartPage;
+
+Row.propTypes = {
+    ...ItemProps,
+    onTrash: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (store) => {
+    return {
+        cartItemIds: selectors.getCart(store)
+    };
+};
+
+export default connect(mapStateToProps)(CartPage);
