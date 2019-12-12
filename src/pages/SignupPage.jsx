@@ -1,61 +1,77 @@
 import React from "react";
 import "./form.css";
 import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
 
 class SignupPage extends React.PureComponent {
 
-    constructor(props){
+    static propTypes = {
+        history: PropTypes.object.isRequired
+    };
+
+    constructor(props) {
         super(props);
         this.state = {
-            email:"",
-            password:"",
-            confirmPassword:"",
+            email: "",
+            password: ""
+            //confirmPassword: ""
         };
     }
 
-    handleSubmit = (event) =>{
-        event.preventDefault();
+    handleSubmit = e => {
+        e.preventDefault();
         console.log("submit", this.state);
-        fetch("/api/users/signup", {
+        fetch("/api/v1/auth/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(this.state)
-        });
+        })
+            .then(res => res.json())
+            .then(() => {
+                this.props.history.push("/login");
+            })
+            .catch(err => {
+                console.log("Error", err);
+            });
     };
 
-    handleChange = (e) =>{
+    handleChange = e => {
+        //console.log("handle change", e.target.name, e.target.value);
         this.setState({
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         });
     };
 
-    render(){
-        return(
-            <div className="signup">
-                <h1 id="header">Sign up</h1>
-                <form id="form" onSubmit={this.handleSubmit}>
-                    <input
-                        type="email"
-                        placeholder="Email address"
-                        name="email"
-                        onChange={this.handleChange}
-                        autoComplete="off" required/>
-                    <input
-                        type="password"
-                        placeholder="Choose a password"
-                        name="password"
-                        onChange={this.handleChange} required/>
-                    <input
-                        type="submit"
-                        value="Submit"
-                        onChange={this.handleChange}/>
-                </form>
-                <br/><p>Already have an account? <br/> <Link to="/login">Login here!</Link></p>
-            </div>
+    render() {
+        return (
+            <>
+                <h1 style={{ textAlign: "center" }}>Signup</h1>
+                <div className="form">
+                    <form className="register-form" onSubmit={this.handleSubmit}>
+                        <input
+                            type="email"
+                            placeholder="email"
+                            name="email"
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                        />
+                        <input
+                            type="password"
+                            placeholder="password"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.handleChange}
+                        />
+                        <button>create</button>
+                        <p className="message">
+                            Already registered? <Link to={"/login"}>Sign In</Link>
+                        </p>
+                    </form>
+                </div>
+            </>
         );
     }
 }
-
 export default SignupPage;

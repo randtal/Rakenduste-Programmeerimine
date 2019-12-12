@@ -1,10 +1,14 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 class UserPage extends React.PureComponent {
-    render(){
+    static propTypes = {
+        user: PropTypes.object.isRequired
+    };
+    render() {
         return (
-            <div className={"form-wrapper"}>
-
+            <div>
+                You are ${this.props.user.email}, created at $
+                {this.props.user.createdAt}
             </div>
         );
     }
