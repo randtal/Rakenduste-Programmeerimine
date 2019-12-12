@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true }, //can add validate function for email type
     hash: { type: String, required: true }, //in DB use hash not password!
     createdAt: { type: Date, default: Date.now }
+    cart: {type: [String], default: []}
 });
 
 //checks users existance
@@ -19,7 +20,8 @@ userSchema.statics.login = function({ email, password }) {
                 resolve({
                     email: userDoc.email,
                     createdAt: userDoc.createdAt,
-                    _id: userDoc._id
+                    _id: userDoc._id,
+                    cart: userDoc.cart,
                 });
             });
         });

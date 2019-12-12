@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {userIcon, cartIcon} from "../icons";
 import "./header.css";
 import PropTypes from "prop-types";
-import authConsumer from "./authConsumer.jsx";
 import {connect} from "react-redux";
 import {ItemProps} from "../pages/CartPage.jsx";
 import * as selectors from "../store/selector.js";
@@ -15,6 +14,7 @@ const Header = ({ user, cart}) => {
                 <img className="headerLogo" src="/static/images/Logo.jpg" />
             </Link>
             <div className="headerButtons">
+
                 {user.email && <WelcomeIcon user={user} />}
                 {!user.email && <LoginRegisterIcon />}
 
@@ -79,4 +79,4 @@ const mapStateToProps = (store) => {
     };
 };
 
-export default connect(mapStateToProps)(authConsumer(Header));
+export default connect(mapStateToProps)(Header);

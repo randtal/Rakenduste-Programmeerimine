@@ -2,10 +2,11 @@ import React from "react";
 import ItemsList from "../components/ItemsList.jsx";
 import Checkbox from "../components/Checkbox.jsx";
 import PropTypes from "prop-types";
-import "./homepage.css";
 import SortDropdown from "../components/SortDropdown.jsx";
 import {connect} from "react-redux";
+import {getItems} from "../store/actions.js";
 import {ItemProps} from "./CartPage.jsx";
+//import "./homepage.css";
 
 class HomePage extends React.PureComponent{
 

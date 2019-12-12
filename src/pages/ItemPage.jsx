@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import FancyButton from "../components/FancyButton.jsx";
 import "./itempage.css";
 import {connect} from "react-redux";
-import addItem from "../store/actions.js";
+import {addItem} from "../store/actions.js";
+import {toast} from "react-toastify";
 
 class ItemPage extends React.PureComponent{
 
@@ -37,7 +38,7 @@ class ItemPage extends React.PureComponent{
 
   handleBuy = () => {
     this.props.dispatch(addItem(this.state));
-
+    toast.success("Toode Lisatud!");
   }
 
   render() {

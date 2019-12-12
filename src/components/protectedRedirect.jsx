@@ -1,8 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-// import authConsumer from "./authConsumer";
-// import UserPage from "../Pages/UserPage";
 
 const protectedRedirect = (WrappedComponent) => {
     return class extends React.PureComponent {

@@ -11,11 +11,10 @@ const authRouter = require("./auth.router.js");
 const database = require("./database.js");
 const PORT = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
+const apiRouter = require("./apiRouter.js");
 
 app.use(bodyParser.json());
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1", itemRouter);
-app.use("/api/v1/users", userRouter);
+app.use(apiRouter);
 
 /** For images and bundle.js */
 app.use("/static", express.static("dist/static"));
