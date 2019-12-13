@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {getItems} from "../store/actions.js";
 import {ItemProps} from "./CartPage.jsx";
 //import "./homepage.css";
+import * as selectors from "../store/selectors";
 
 class HomePage extends React.PureComponent{
 

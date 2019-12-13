@@ -8,7 +8,7 @@ export const UserPropTypes = {
     _id: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
-    cart: PropTypes.arrayOf(PropTypes.string).isRequired,
+    cart: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 const initialState = {
@@ -55,13 +55,13 @@ export const reducer = (state = initialState, action) => {
 };
 
 const removeItemFromCart = (user, itemId) => {
-    const foundItemIndex = user.cart.findIndex(cartId => cartId === itemId);
-    if (foundItemIndex === -1) return user;
-    const cartCopy = user.cart.slice();
-    cartCopy.splice(foundItemIndex, 1);
+    const index = user.cart.findIndex(cartId => cartId === itemId);
+    if(index === -1) return user;
+    const copy = user.cart.slice();
+    copy.splice(index, 1);
     return {
         ...user,
-        cart: cartCopy
+        cart: copy
     };
 };
 

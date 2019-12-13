@@ -1,3 +1,7 @@
+import * as services from "../services";
+import * as selectors from "../store/selectors";
+import {toast} from "react-toastify";
+
 export const ITEMS_SUCCESS = "ITEMS_SUCCESS";
 export const ITEMS_REQUEST = "ITEMS_REQUEST";
 export const ITEMS_FAILURE = "ITEMS_FAILURE";
@@ -57,7 +61,9 @@ export const addItem = (item) => (dispatch, getState) => {
         });
 };
 
+
 export const getItems = () => (dispatch, getState) => {
+
     const store = getState();
     if(selectors.getItems(store).length > 0) return null;
 
@@ -71,16 +77,13 @@ export const getItems = () => (dispatch, getState) => {
             dispatch(itemsFailure());
         });
 };
-
 export const itemsSuccess = (items) => ({
     type: ITEMS_SUCCESS,
     payload: items,
 });
-
 export const itemsRequest = () => ({
     type: ITEMS_REQUEST,
 });
-
 export const itemsFailure = () => ({
     type: ITEMS_FAILURE
 });
@@ -89,22 +92,7 @@ export const userUpdate = (user) => ({
     type: USER_UPDATE,
     payload: user
 });
-
 export const tokenUpdate = token => ({
     type: TOKEN_UPDATE,
     payload: token
 });
-
-export const refreshUser = () => (dispatch, getState) => {
-    const store = getState();
-    const userId = selectors.getUserId(store);
-    const token = selectors.getToken(store);
-
-    services.getUser({userId, token})
-        .then(user => {
-            dispatch(userUpdate(user));
-        })
-        .catch(err => {
-            console.log("error", err);
-        });
-};

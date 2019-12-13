@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true }, //can add validate function for email type
     hash: { type: String, required: true }, //in DB use hash not password!
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
     cart: {type: [String], default: []}
 });
 
