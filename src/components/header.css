@@ -27,7 +27,7 @@
 
 .header__button {
   display: flex;
-  algin-items: center;
+  align-items: center;
   height: 100%;
   color: #333;
   transition: all .3s;

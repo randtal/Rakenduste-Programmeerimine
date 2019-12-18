@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -5,10 +9,6 @@ const PORT = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 const database = require("./database.js");
 const apiRouter = require("./apiRouter.js");
-
-if(process.env.NODE_ENV !== "production") {
-    require("dotenv").config();
-}
 
 app.use(bodyParser.json());
 app.use(apiRouter);

@@ -5,30 +5,23 @@ import "./header.css";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {ItemProps} from "../pages/CartPage.jsx";
+//import { UserPropTypes } from "../store/reducer.js";
 import * as selectors from "../store/selector.js";
 
-const Header = ({ user, cart}) => {
+const Header = ({user, cart}) => {
     return (
         <div className="header">
             <Link to={"/"}>
-                <img className="headerLogo" src="/static/images/Logo.jpg" />
+                <img src="/static/images/apple.png" className={"header__logo"}/>
             </Link>
-            <div className="headerButtons">
+            <div className="header__buttons">
+                {user && <WelcomeIcon user={user}/>}
+                {!user && <LoginRegisterIcon />}
 
-                {user.email && <WelcomeIcon user={user} />}
-                {!user.email && <LoginRegisterIcon />}
-
-                <Link className="headerButton" to={"/checkout/cart"}>
-                    <button className="instagram" type="submit">
-                        <img
-                            className={"buttonImage"}
-                            src={cartIcon}
-                            alt=""
-                            style={{ height: 35 }}
-                        />
-                        Cart
-                        <Badge>{cart.length}</Badge>
-                    </button>
+                <Link to={"/checkout/cart"} className={"header__button"}>
+                    <img src={cartIcon} />
+                    <div className={"header__button-text"}>Cart</div>
+                    <Badge>{cart.length}</Badge>
                 </Link>
             </div>
         </div>
