@@ -130,7 +130,7 @@ ItemFilters.propTypes = {
 
 const mapStateToProps = (store) => {
   return {
-    items: selectors.getItems(store),
+    items: selectors.getItems(store)
   };
 };
 

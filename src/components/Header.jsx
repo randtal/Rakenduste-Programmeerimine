@@ -5,7 +5,7 @@ import "./header.css";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {ItemProps} from "../pages/CartPage.jsx";
-//import { UserPropTypes } from "../store/reducer.js";
+import { UserPropTypes } from "../store/reducer.js";
 import * as selectors from "../store/selector.js";
 
 const Header = ({user, cart}) => {
@@ -30,7 +30,7 @@ const Header = ({user, cart}) => {
 
 Header.propTypes = {
     token: PropTypes.string,
-    user: PropTypes.object,
+    user: PropTypes.shape(UserPropTypes),
     cart: PropTypes.arrayOf(ItemProps).isRequired,
 };
 
