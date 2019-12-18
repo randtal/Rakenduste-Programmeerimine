@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const ItemsList = (props) => {
-    console.log("items list", props);
   return (
     <div className={"content"}>
       {

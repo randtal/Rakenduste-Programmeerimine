@@ -2,61 +2,60 @@ import React from "react";
 import ItemsList from "../components/ItemsList.jsx";
 import Checkbox from "../components/Checkbox.jsx";
 import PropTypes from "prop-types";
-import "./homepage.css";
 import SortDropdown from "../components/SortDropdown.jsx";
-//import "../components/itemsList.css";
+import {connect} from "react-redux";
+import {getItems} from "../store/actions.js";
+import {ItemProps} from "./CartPage.jsx";
+//import "./homepage.css";
+import * as selectors from "../store/selectors";
 
 class HomePage extends React.PureComponent{
+
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape(ItemProps)).isRequired,
+  };
 
   constructor(props){
     super(props);
     this.state = {
       sortDirection: -1,
-      items: [],
       allCategories: ["os", "systems"],
       selectedCategories: ["os"]
     };
   }
 
   componentDidMount() {
-    this.fetchItems();
+    this.props.dispatch(getItems());
   }
 
-  fetchItems = () => {
-    fetch("/api/items")
-      .then(res => {
-        console.log("res", res);
-        return res.json();
-      })
-      .then(items => {
-        console.log("items", items);
-        this.setState({
-          items
-        });
-      })
-      .catch(err => {
-        console.log("err", err);
-      });
+  handleFilterSelect = event => {
+    const categoryName = event.target.name;
+    if (this.isSelected(categoryName)) {
+      return this.unselectCategory(categoryName);
+    }
+    this.selectCategory(categoryName);
   };
 
-  handleDropdown = event => {
-    console.log(event.target.value, event.target.name);
-    if(this.isSelected(event.target.name)){
-        const clone = this.state.selectedCategories.slice();
-        const index = this.state.selectedCategories.indexOf([event.target.name]);
-        clone.splice(index, 1);
-        this.setState({
-          selectedCategories: clone
-        });
-    } else {
-      this.setState({
-        selectedCategories: this.state.selectedCategories.concat([event.target.name])
-      });
-    }
+  selectCategory = categoryName => {
+    this.setState({
+      selectedCategories: this.state.selectedCategories.concat([categoryName])
+    });
   };
+
+  unselectCategory = categoryName => {
+    const newArr = this.state.selectedCategories.filter(
+        cn => cn !== categoryName
+    );
+
+    this.setState({
+      selectedCategories: newArr
+    });
+  };
+
 
   getVisibleItems = () => {
-    return this.state.items
+    return this.props.items
       .filter( item => this.isSelected(item.category))
       .sort( (a, b) => {
         switch(this.state.sortDirection){
@@ -82,7 +81,7 @@ class HomePage extends React.PureComponent{
             <div className={"filtersWrapper"}>
               <ItemFilters
                   allCategories={this.state.allCategories}
-                  handleDropdown={this.handleDropdown}
+                  handleDropdown={this.handleFilterSelect}
                   isSelected={this.isSelected}
               />
             </div>
@@ -129,4 +128,10 @@ ItemFilters.propTypes = {
   isSelected: PropTypes.func.isRequired,
 };
 
-export default HomePage;
+const mapStateToProps = (store) => {
+  return {
+    items: selectors.getItems(store)
+  };
+};
+
+export default connect(mapStateToProps)(HomePage);

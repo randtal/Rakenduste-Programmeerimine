@@ -7,15 +7,22 @@ module.exports = {
   entry: './src/index.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: './static/bundle.js'
   },
+  devtool: "eval-source-map",
   plugins: [
     new CleanWebpackPlugin(),
     new CopyPlugin([
       {
         from: "public"
       }
-    ])
+    ]),
+    new CopyPlugin([
+        {
+          from: "public/images",
+          to: "static/images"
+        }
+      ])
   ],
   devServer: {
     historyApiFallback: true,
@@ -46,8 +53,16 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
-        }
-      }
+        },
+      },
+      {
+        test: /\.(png|jpeg|gif|woff|woff2)$/i,
+        use: [
+            {
+              loader: "file-loader",
+            },
+        ],
+      },
     ]
   },
 };

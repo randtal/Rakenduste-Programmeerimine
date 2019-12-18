@@ -4,7 +4,92 @@ info:
   description: ""
   version: "1.0.0"
 paths:
-  /api/v1/login:
+  /items:
+    get:
+      operationId: getItems
+      summary: Returns item objects
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Item"
+        500:
+          description: Error
+
+  /items/{itemId}:
+    get:
+      operationId: getItem
+      summary: Returns an item object
+      parameters:
+        - $ref: "#/components/parameters/itemIdParam"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        500:
+          description: Error
+
+  /users/{usersId}:
+    get:
+      operationId: getUser
+      summary: Returns an user object
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/userIdParam"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schema/User"
+        403:
+          description: Forbidden
+        500:
+          description: Error
+
+  /users/{userId}/cart/{itemId}:
+    put:
+      operationId: addItemToCart
+      summary: Adds an item to a cart
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/userIdParam"
+        - $ref: "#/components/parameters/itemIdParam"
+      responses:
+        200:
+          description: OK
+        403:
+          description: Forbidden
+        500:
+          description: err
+    delete:
+      operationId: removeItemFromCart
+      summary: Removes an item from a cart
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/userIdParam"
+        - $ref: "#/components/parameters/itemIdParam"
+      responses:
+        200:
+          description: OK
+        403:
+          description: Forbidden
+        500:
+          description:err
+
+
+  /auth/login:
     post:
       operationId: login
       summary: User signs in
@@ -43,10 +128,11 @@ paths:
           description: bad email or password
         401:
           description: unauthorized
-  /api/v1/signup:
+
+  /auth/signup:
     post:
       operationId: signup
-      summary: User creates an account
+      summary: User registers an account
       description: ""
       requestBody:
         required: true

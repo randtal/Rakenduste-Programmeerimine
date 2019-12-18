@@ -1,61 +1,74 @@
 import React from "react";
 import "./form.css";
 import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import {toast} from "react-toastify";
+import * as services from "../services";
 
 class SignupPage extends React.PureComponent {
 
-    constructor(props){
+    static propTypes = {
+        history: PropTypes.object.isRequired
+    };
+
+    constructor(props) {
         super(props);
         this.state = {
-            email:"",
-            password:"",
-            confirmPassword:"",
+            email: "",
+            password: ""
+            //confirmPassword: ""
         };
     }
 
-    handleSubmit = (event) =>{
-        event.preventDefault();
-        console.log("submit", this.state);
-        fetch("/api/users/signup", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(this.state)
-        });
+    handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Submit", e, this.state);
+        services.signup(this.state)
+            .then(data => {
+                console.log("response handleSubmit", data);
+                this.props.history.push("/login");
+                toast.success("Registration successful");
+            })
+            .catch(err => {
+                console.log("error", err);
+                toast.error("Registration failed");
+            });
     };
 
-    handleChange = (e) =>{
+    handleChange = e => {
         this.setState({
-            [e.target.name]: e.target.value,
+            [e.target.name]: e.target.value
         });
     };
 
-    render(){
-        return(
-            <div className="signup">
-                <h1 id="header">Sign up</h1>
-                <form id="form" onSubmit={this.handleSubmit}>
-                    <input
-                        type="email"
-                        placeholder="Email address"
-                        name="email"
-                        onChange={this.handleChange}
-                        autoComplete="off" required/>
-                    <input
-                        type="password"
-                        placeholder="Choose a password"
-                        name="password"
-                        onChange={this.handleChange} required/>
-                    <input
-                        type="submit"
-                        value="Submit"
-                        onChange={this.handleChange}/>
-                </form>
-                <br/><p>Already have an account? <br/> <Link to="/login">Login here!</Link></p>
-            </div>
+    render() {
+        return (
+            <>
+                <h1 style={{ textAlign: "center" }}>Signup</h1>
+                <div className="form">
+                    <form className="register-form" onSubmit={this.handleSubmit}>
+                        <input
+                            type="email"
+                            placeholder="email"
+                            name="email"
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                        />
+                        <input
+                            type="password"
+                            placeholder="password"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.handleChange}
+                        />
+                        <button>create</button>
+                        <p className="message">
+                            Already registered? <Link to={"/login"}>Sign In</Link>
+                        </p>
+                    </form>
+                </div>
+            </>
         );
     }
 }
-
 export default SignupPage;

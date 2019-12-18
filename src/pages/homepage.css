@@ -1,16 +1,3 @@
-/*
-.itemFilers-wrapper{
-  display: flex;
-  width: 965px;
-  margin: 0 auto;
-  margin-bottom: 25px;
-}
-
-.itemFilters-wrapper > div{
-  margin-right: 25px;
-}
-*/
-
 body {
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -44,5 +31,3 @@ body {
   padding-right: 7px;
 
 }
-
-/**columns: #999999;**/

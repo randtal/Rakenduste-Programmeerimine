@@ -36,8 +36,10 @@ router.post("/signup",
         check("password")
             .isLength({ min: 5 })
             .withMessage("Must be at least 5 chars long")
-            .matches(/\d/).withMessage("Must contain a number")
-            .not().isIn(["123", "password1", "parool1"]).withMessage("Can´t be common word password")
+            .matches(/\d/)
+            .withMessage("Must contain a number")
+            .not().isIn(["123", "password1", "parool1"])
+            .withMessage("Can´t be common word password")
     ],
     validationMiddleware,
     userController.signup

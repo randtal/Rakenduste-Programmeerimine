@@ -4,8 +4,13 @@
   "scripts": {
     "build": "webpack",
     "start": "node server/server.js",
-    "start:dev": "webpack-dev-server --open --mode=\"development\"",
+    "start:prelive": "npm run build && set PORT=3001 npm run start",
+    "start:backend": "nodemon ./server/server.js",
+    "start:frontend": "webpack-dev-server --open --mode=\"development\"",
     "lint": "eslint --version"
+  },
+  "performance": {
+    "hints": false
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
@@ -19,7 +24,15 @@
     "mongoose": "^5.7.12",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-router-dom": "^5.1.2"
+    "react-icons": "^3.8.0",
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.1.2",
+    "react-toastify": "^5.4.1",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.3.0",
+    "typeface-roboto": "0.0.75"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.2",
@@ -37,6 +50,7 @@
     "eslint": "^6.5.1",
     "eslint-loader": "^3.0.2",
     "eslint-plugin-react": "^7.16.0",
+    "file-loader": "^5.0.2",
     "prop-types": "^15.7.2",
     "style-loader": "^1.0.0",
     "webpack": "^4.41.2",

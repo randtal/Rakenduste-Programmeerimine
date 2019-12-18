@@ -27,7 +27,7 @@
 
 .header__button {
   display: flex;
-  algin-items: center;
+  align-items: center;
   height: 100%;
   color: #333;
   transition: all .3s;
@@ -45,4 +45,13 @@
 .header__button-text{
   padding-left: 5px;
   font-size: 14px;
+}
+
+.badge {
+  position: absolute;
+  padding: 2px 4px;
+  background: #d41d46;
+  bottom: 17px;
+  color: white;
+  border-radius: 100%;
 }
