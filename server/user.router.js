@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const User = require("./user.model.js");
-const Item = require("./item.model")
+const Item = require("./item.model.js");
 const {authMiddleware} = require("./middlewares.js");
 
 router.param("userId", (req, res, next, userId) => {
@@ -73,9 +73,20 @@ router.delete("/", (req, res) => {
     });
 });
 
+router.post("/", (req, res) => {
+    User.signup(req.body)
+        .then( user =>{
+            res.status(200).json(user);
+        })
+        .catch( err =>{
+            console.log("err", err);
+            res.send(500);
+        });
+});
+
 function handleError(err, res) {
     console.log(err);
-    res.sendStatus(500);
+    res.send(500);
 }
 
 module.exports = router;

@@ -1,5 +1,5 @@
 import React from "react";
-import ItemsList from "../components/ItemsList.jsx";
+import ItemList from "../components/ItemsList.jsx";
 import Checkbox from "../components/Checkbox.jsx";
 import PropTypes from "prop-types";
 import SortDropdown from "../components/SortDropdown.jsx";
@@ -95,7 +95,7 @@ class HomePage extends React.PureComponent{
                   onChange={this.handleSortDropdown}
               />
             </div>
-            <ItemsList items={items} />
+            <ItemList items={items} />
           </div>
         </>
     );

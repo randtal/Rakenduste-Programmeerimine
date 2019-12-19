@@ -18,6 +18,15 @@ export const getItem = (itemId) => {
         });
 };
 
+export const getUsers = () => {
+    return fetch(`${basePath}/users/`)
+        .then(res => {
+            if(!res.ok) throw "getUsers failed";
+
+            return res.json();
+        });
+};
+
 export const getUser = ({userId, token}) => {
     return fetch(`${basePath}/users/${userId}`, {
         headers: {
@@ -85,6 +94,33 @@ export const signup = ({email, password}) => {
         .then(res => {
             if(!res.ok) throw "signup failed";
 
+            return res.json();
+        });
+};
+
+export const checkout = ({stripeToken, userId, token}) => {
+    return fetch(`${basePath}/users/${userId}/checkout`, {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(stripeToken)
+    })
+        .then(res => {
+            if(!res.ok) throw "checkout failed";
+        });
+};
+
+export const getPayments = ({userId, token}) => {
+    return fetch(`${basePath}/users/${userId}/payments`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        },
+    })
+        .then(res => {
+            if(!res.ok) throw "getPayments failed";
             return res.json();
         });
 };

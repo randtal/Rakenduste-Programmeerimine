@@ -48,30 +48,33 @@ class LoginPage extends React.PureComponent {
     render() {
         return (
             <>
-                <div>
-                    <h1 style={{ textAlign: "center" }}>Login</h1>
-                </div>
-                <div className="form">
-                    <form className="login-form" onSubmit={this.handleSubmit}>
-                        <input
-                            type="email"
-                            placeholder="email"
-                            name="email"
-                            value={this.state.email}
-                            onChange={this.handleChange}
-                        />
-                        <input
-                            type="password"
-                            placeholder="password"
-                            name="password"
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                        />
-                        <button>login</button>
-                        <p className="message">
-                            Not registered? <Link to={"/signup"}>Create an account</Link>
-                        </p>
-                    </form>
+                <div className={"container"}>
+                    <h1>Login</h1>
+                    <div className={"form"}>
+                        <form onSubmit={this.handleSubmit}>
+                            <p>
+                                <input
+                                    placeholder={"email"}
+                                    name="email"
+                                    type={"email"}
+                                    value={this.state.email}
+                                    onChange={this.handleChange} />
+                            </p>
+                            <p>
+                                <input
+                                    placeholder={"Password"}
+                                    name="password"
+                                    type={"password"}
+                                    value={this.state.password}
+                                    onChange={this.handleChange} />
+                            </p>
+                            <p>
+                                <button type="submit"><Link to={"/UserPage.jsx"}>Log In</Link></button>
+                            </p>
+                            <p className="message"> Not registered? <Link to={"/signup"}>Create an account</Link>
+                            </p>
+                        </form>
+                    </div>
                 </div>
             </>
         );

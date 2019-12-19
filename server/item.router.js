@@ -42,7 +42,7 @@ router.post("/", (req, res) =>{
 });
 
 /**Returns an item*/
-router.get("/:itemId", (req,res)=>{
+router.get("/", (req,res)=>{
     Item.findById(req.params.itemId, function(err, item){
         if(err){
             console.log("Error:", err);
