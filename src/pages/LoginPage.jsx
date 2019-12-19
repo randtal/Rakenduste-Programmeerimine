@@ -69,7 +69,7 @@ class LoginPage extends React.PureComponent {
                                     onChange={this.handleChange} />
                             </p>
                             <p>
-                                <button type="submit"><Link to={"/UserPage.jsx"}>Log In</Link></button>
+                                <button onClick="login" type="submit">Log In</button>
                             </p>
                             <p className="message"> Not registered? <Link to={"/signup"}>Create an account</Link>
                             </p>
@@ -80,4 +80,5 @@ class LoginPage extends React.PureComponent {
         );
     }
 }
+
 export default connect()(LoginPage);

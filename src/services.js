@@ -111,16 +111,3 @@ export const checkout = ({stripeToken, userId, token}) => {
             if(!res.ok) throw "checkout failed";
         });
 };
-
-export const getPayments = ({userId, token}) => {
-    return fetch(`${basePath}/users/${userId}/payments`, {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${token}`
-        },
-    })
-        .then(res => {
-            if(!res.ok) throw "getPayments failed";
-            return res.json();
-        });
-};
