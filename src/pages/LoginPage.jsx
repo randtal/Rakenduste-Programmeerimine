@@ -69,7 +69,7 @@ class LoginPage extends React.PureComponent {
                                     onChange={this.handleChange} />
                             </p>
                             <p>
-                                <button onClick="login" type="submit">Log In</button>
+                                <button type="submit">Log In</button>
                             </p>
                             <p className="message"> Not registered? <Link to={"/signup"}>Create an account</Link>
                             </p>
